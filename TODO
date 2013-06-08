@@ -1,0 +1,12 @@
+- RRD Database name:
+  - doesn't work with disk plugin and Root Partition name: /
+  - Name Conversion stored in cRrdNameComponents ( orig and converted )?
+  - Storing name conversion information in SQL? last step in logger?
+
+- DS Name
+  - valid length: 1 to 19 character
+  - valid characterset: [a-zA-Z0-9_]
+
+- Warning and Critical Values
+  - where we ware storing this values from the plugin
+  - this values a diffent from any node

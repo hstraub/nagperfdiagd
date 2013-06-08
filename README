@@ -1,0 +1,7 @@
+NagPerfDiagD
+
+This is a Nagios Performance Data Collector implemented as daemon.
+NagPerfDiagD use rrd_th and the soci library.
+
+Status:
+uncompleted, experimental

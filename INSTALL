@@ -1,0 +1,8 @@
+Compile:
+
+g++ -o nagperfdiagd -lboost_regex -DSOCI_HEADERS_BURIED -lsoci_core -lsoci_postgresql -lpq -lrrd_th -lpthread perfdataparser.cxx rrdmanager.cxx npdprocess.cxx nagperfdiagd.cxx npdconfig.cxx  npddataconverter.cxx npdtypecache.cxx
+
+or:
+
+./autogen
+make

@@ -1,0 +1,71 @@
+VERSION=0.0.1
+PACKAGE=nagperfdiagd
+
+AC_INIT(configure.in)
+AC_CONFIG_HEADER(src/config.h)
+AM_INIT_AUTOMAKE(nagperfdiagd,$VERSION)
+
+dnl Set SYSCONFDIR in config.h.
+AC_DEFINE_UNQUOTED([SYSCONFDIR],[${sysconfdir}],[etc sysconfig dir])
+
+dnl FIXME: better with options
+AC_DEFINE([VARRUNDIR], ["/var/run"], [pid file directory, for example /var/run])
+AC_SUBST([VARRUNDIR],[/var/run])
+AC_DEFINE([VARLOGDIR], ["/var/log/nagperfdiagd"], [Logfile directory])
+AC_SUBST([VARLOGDIR],[/var/log/nagperfdiagd])
+
+AC_CONFIG_MACRO_DIR([m4])
+
+AC_PROG_CC
+AC_LANG_CPLUSPLUS
+AC_PROG_CXX
+
+AC_PROG_INSTALL
+AC_PROG_MAKE_SET
+
+AC_PATH_PROG(MV, mv, mv)
+AC_PATH_PROG(RM, rm, rm)
+AC_PATH_PROG(SED, sed, sed)
+
+CXXFLAGS=" -DSOCI_HEADERS_BURIED $CXXFLAGS"
+CFLAGS=" -DSOCI_HEADERS_BURIED $CFLAGS"
+AC_SUBST(CXXFLAGS)
+
+dnl headers
+AC_HEADER_STDC
+AC_CHECK_HEADERS(dirent.h errno.h fcntl.h grp.h pthread.h pwd.h signal.h stdlib.h syslog.h sys/stat.h unistd.h)
+
+dnl Compiler characteristics
+AC_SUBST(CXX_INCLUDE_PATH)
+AC_SUBST(CFLAGS)
+AC_SUBST(CXXFLAGS)
+AC_SUBST(LDFLAGS)
+
+# dnl postgresql
+AX_LIB_POSTGRESQL([8.1])
+CXXFLAGS=" $CXXFLAGS $POSTGRESQL_CFLAGS"
+CFLAGS="$CFLAGS $POSTGRESQL_CFLAGS"
+LIBS="$LIBS $POSTGRESQL_LDFLAGS"
+
+dnl check pthread
+ACX_PTHREAD(,AC_MSG_ERROR([no phtreads found]))
+CXXFLAGS=" ${CXXFLAGS}  $PTHREAD_CFLAGS"
+CFLAGS=" ${CFLAGS}  $PTHREAD_CFLAGS"
+LIBS="$PTHREAD_LIBS $LIBS"
+
+dnl workaround for setting --with-boost and --with-boost-regex to yes; default is no
+with_boost="yes"
+with_boost_regex="yes"
+dnl check boost
+AX_BOOST_BASE([1.33.0],,AC_MSG_ERROR([Boost library is not installed]))
+AX_BOOST_REGEX([1.33.0],AC_MSG_ERROR([Boost.regex is not installed]))
+CXXFLAGS="$CXXFLAGS $BOOST_CPPFLAGS"
+LIBS="$LIBS $BOOST_LDFLAGS $BOOST_REGEX_LIB"
+
+AC_CHECK_LIB([rrd_th], [main],LIBS="$LIBS -lrrd_th",[
+	AC_MSG_ERROR([Cannot find rrd_th; Round Robin Database multithreaded])])
+
+dnl FIXME: soci Test
+LIBS="$LIBS -lsoci_core -lsoci_postgresql -lpthread"
+
+AC_OUTPUT([Makefile src/Makefile config/Makefile])

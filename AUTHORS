@@ -1,0 +1,22 @@
+nagperfdiagd:
+  - Herbert Straub <herbert@linuxhacker.at> www.linuxhacker.at
+
+m4 Helper Macros, see the m4 subdirectory:
+  - acx_pthread.m4:
+    - Steven G. Johnson <stevenj@alum.mit.edu>
+    - license: GPL v3 or later
+
+  - ax_boost_base.m4:
+    - Thomas Porschberg <thomas@randspringer.de>
+    - license: AllPermissive
+
+  - ax_boost_regex.m4: 
+    - Thomas Porschberg <thomas@randspringer.de>
+    - Michael Tindal <mtindal@paradoxpoint.com>
+    - license: AllPermissive
+
+  - ax_lib_postgresql.m4:
+    - Mateusz Loskot <mateusz@loskot.net>
+    - license: Copying and distribution of this file, with or without
+      modification, are permitted in any medium without royalty provided the
+      copyright notice and this notice are preserved.

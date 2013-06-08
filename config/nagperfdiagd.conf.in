@@ -1,0 +1,135 @@
+# Program: NagPerfDiag
+# License: GNU/GPL
+# Copyright (c) 2009 Herbert Straub <herbert@linuxhacker.at>
+# Website: www.linuxhacker.at
+#
+# License:
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 2 as
+# published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+# Parameterfile syntax:
+# starting from the beginning of the line with key=value
+# The original nagperfdiagd.conf contains the default values!
+
+
+
+# nagios_input_data_path
+# This is the interface to Nagios. Nagios places the service performance data in 
+# this directory. The following seqzenz describe the Nagios configuration steps.
+#
+# 1. process_performance_data=1
+# 2. service_perfdata_file=/tmp/service-perfdata.nagios
+# 3. service_perfdata_file_template=[SERVICEPERFDATA-START]\ntimet::$TIMET$\nhostname::$HOSTNAME$\nservicedesc::$SERVICEDESC$\nserviceexecutiontime::$SERVICEEXECUTIONTIME$\nservicelatency::$SERVICELATENCY$\nservicecheckcommand::$SERVICECHECKCOMMAND$\nserviceoutput::$SERVICEOUTPUT$\nserviceperfdata::$SERVICEPERFDATA$\n[SERVICEPERFDATA-END]
+# 	This is one single line in the nagios.conf file!
+# 4. service_perfdata_file_processing_interval=30
+# 5. service_perfdata_file_processing_command=process-service-perfdata-file-nagperfdiag
+# 6. define the command like this:
+# 	define command{
+#        	command_name    process-service-perfdata-file-nagperfdiag
+#  		command_line    /bin/mv /tmp/service-perfdata.nagios /tmp/service-perfdata.`date +"%s"`.nagperfdiag
+#       }
+#
+#nagios_input_data_path=/tmp
+
+
+
+# processing_interval=30
+# The processing_intervall in seconds. The nagperfdiagd process looks every processing_interval
+# seconds in the naigios_input_data_path directory for service performance data files. Nagperfdiagd
+# process all input data files in one step. Then the process sleeps processing_interval seconds.
+# 
+#processing_interval=30
+
+
+
+# nagios_input_data_filename_regex
+# Regular Expression for finding the Nagios Input Data Files. Don't touch, if you don't know
+# exactly what are you doing.
+#nagios_input_data_filename_regex=service-perfdata\\.[\\d+]*\\.nagperfdiag
+
+
+
+# process_user
+# The nagperfdiagd switch to process_user UID.
+# process_user=nagios
+
+
+
+# process_group
+# The nagperfdiagd switch to process_group GID.
+# process_group=nagios
+
+
+
+# daemon_logfile
+# The full specified daemon logfile
+# daemon_logfile=@VARLOGDIR@/nagperfdiagd.log
+
+
+# pid_file
+# The pid_file contains the name of the pid file.
+# pid_file=@VARRUNDIR@/nagperfdiagd.pid
+
+
+
+# debug_output_directory
+# Nagperfdiag write the debug output to this directory.
+# debug_output_directory=@VARLOGDIR@/debug
+
+
+
+# rrd_default_datatype
+# Specify the default rrd datatype. This can be: GAUGE, COUNTER, DERIVE
+# Nagperfdiagd read the datatype from the sql. If nagperfdiagd cannot find a valid
+# entry in the sql, the value of rrd_default_datatype is used.
+# rrd_default_datatype=GAUGE
+
+
+
+
+# db_type
+# Database type: valid types are: postgresql, mysql
+# db_type=postgresql
+
+
+
+# db_host
+# Database Host
+# db_host=localhost
+
+
+
+# db_databasename
+# The databasename
+# db_databasename=nagperfdiag
+db_databasename=socidb
+
+
+
+# db_username
+# Database Username
+# db_username=dbuser
+db_username=soci
+
+
+
+# db_password
+# Database password
+# db_password=dbpassword
+db_password=soci
+
+# Testparameter
+das_ist_ein_test=und
+
+
